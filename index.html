@@ -10,22 +10,12 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --text: #1a1a1a;
-      --muted: #555;
-      --faint: #888;
-      --border: #ddd;
-      --bg: #fff;
-      --link: #1a1a1a;
-    }
-    @media {
-      :root {
-  --text: #212529;
-  --muted: #6c757d;
-  --faint: #adb5bd;
-  --border: #dee2e6;
-  --bg: #f8f9fa; 
-  --link: #212529;
-}
+      --text: #2c2016;
+      --muted: #6b5744;
+      --faint: #a08c78;
+      --border: #d9ccbb;
+      --bg: #f7f3ec;
+      --link: #2c2016;
     }
     body {
       font-family: 'EB Garamond', Georgia, serif;
@@ -55,7 +45,7 @@
       height: 80px;
       border-radius: 50%;
       border: 1px solid var(--border);
-      background: #f0ede8;
+      background: #ede6d8;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -63,9 +53,6 @@
       font-size: 1.1rem;
       color: var(--muted);
       flex-shrink: 0;
-    }
-    @media (prefers-color-scheme: dark) {
-      .profile-placeholder { background: #222; }
     }
     h1 {
       font-size: 1.9rem;
@@ -116,7 +103,7 @@
 <body>
 
   <div class="profile">
-    <img src="pfp.jpg" alt="Himanshu Mishra" class="profile-img" />
+   <img src="pfp.jpg" alt="Himanshu Mishra" class="profile-img" />
     <div>
       <h1>Himanshu Mishra</h1>
       <p class="subtitle">Mathematics · IISER Bhopal</p>
