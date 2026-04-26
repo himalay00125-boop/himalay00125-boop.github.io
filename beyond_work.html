@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Himanshu Mishra | Beyond Work</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --text: #1a1a1a; --muted: #555; --faint: #888; --border: #ddd; --bg: #fff; }
+    @media (prefers-color-scheme: dark) {
+      :root { --text: #e8e6e0; --muted: #aaa; --faint: #777; --border: #333; --bg: #111; }
+    }
+    body {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 18px; line-height: 1.8;
+      color: var(--text); background: var(--bg);
+      max-width: 660px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    }
+    .nav { font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--muted); margin-bottom: 2.5rem; display: flex; gap: 1.25rem; }
+    .nav a { color: var(--muted); text-decoration: none; border-bottom: 0.5px solid var(--border); padding-bottom: 1px; }
+    .nav a:hover { color: var(--text); }
+    h1 { font-size: 1.5rem; font-weight: 500; margin-bottom: 2rem; }
+    hr { border: none; border-top: 0.5px solid var(--border); margin: 1.75rem 0; }
+    .section-label { font-family: 'DM Mono', monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--faint); margin-bottom: 0.6rem; }
+    p.body { font-size: 1rem; line-height: 1.85; color: var(--text); margin-bottom: 0.5rem; }
+    .sport-list { list-style: none; padding: 0; margin-top: 0.25rem; }
+    .sport-list li { display: flex; justify-content: space-between; align-items: baseline; padding: 0.3rem 0; border-bottom: 0.5px solid var(--border); font-size: 0.97rem; }
+    .sport-list li:first-child { border-top: 0.5px solid var(--border); }
+    .sport-name { color: var(--text); }
+    .sport-note { font-family: 'DM Mono', monospace; font-size: 0.74rem; color: var(--faint); }
+    footer { margin-top: 3rem; font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--faint); }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html">← Go Back</a>
+    <a href="index.html">Home</a>
+  </nav>
+
+  <h1>Beyond Work</h1>
+
+  <p class="section-label">Sports</p>
+  <p class="body">I am a keen sportsman and love picking up new games. Sport, for me, is about the geometry of movement as much as competition.</p>
+
+  <ul class="sport-list">
+    <li><span class="sport-name">Tennis</span><span class="sport-note">main sport</span></li>
+    <li><span class="sport-name">Table Tennis</span><span class="sport-note"></span></li>
+    <li><span class="sport-name">Volleyball</span><span class="sport-note"></span></li>
+    <li><span class="sport-name">Cricket</span><span class="sport-note"></span></li>
+    <li><span class="sport-name">Squash</span><span class="sport-note"></span></li>
+    <li><span class="sport-name">Chess</span><span class="sport-note">strategy</span></li>
+  </ul>
+
+  <hr />
+
+  <p class="section-label">Mind Games</p>
+  <p class="body">When not doing mathematics or sport, I enjoy quizzing — from general knowledge to science — and working through puzzles of all kinds. A good puzzle and a good theorem feel surprisingly similar.</p>
+
+  <footer>© 2025 Himanshu Mishra</footer>
+
+</body>
+</html>

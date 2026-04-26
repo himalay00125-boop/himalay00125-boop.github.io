@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Himanshu Mishra | Experience</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --text: #1a1a1a; --muted: #555; --faint: #888; --border: #ddd; --bg: #fff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --text: #e8e6e0; --muted: #aaa; --faint: #777; --border: #333; --bg: #111; }
+    }
+    body {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 18px; line-height: 1.8;
+      color: var(--text); background: var(--bg);
+      max-width: 660px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    }
+    .nav {
+      font-family: 'DM Mono', monospace; font-size: 0.78rem;
+      color: var(--muted); margin-bottom: 2.5rem; display: flex; gap: 1.25rem;
+    }
+    .nav a { color: var(--muted); text-decoration: none; border-bottom: 0.5px solid var(--border); padding-bottom: 1px; }
+    .nav a:hover { color: var(--text); }
+    h1 { font-size: 1.5rem; font-weight: 500; margin-bottom: 2rem; }
+    hr { border: none; border-top: 0.5px solid var(--border); margin: 1.75rem 0; }
+    .entry-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.25rem; margin-bottom: 0.3rem; }
+    .entry-title { font-weight: 500; font-size: 1.02rem; }
+    .entry-meta { font-family: 'DM Mono', monospace; font-size: 0.76rem; color: var(--muted); }
+    .entry-place { font-size: 0.95rem; color: var(--muted); font-style: italic; margin-bottom: 0.4rem; }
+    .entry-desc { font-size: 0.95rem; color: var(--muted); line-height: 1.7; }
+    .entry-desc ul { padding-left: 1.2rem; margin-top: 0.35rem; }
+    .entry-desc li { margin-bottom: 0.2rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
+    .tag { font-family: 'DM Mono', monospace; font-size: 0.7rem; padding: 2px 8px; border: 0.5px solid var(--border); border-radius: 3px; color: var(--muted); }
+    footer { margin-top: 3rem; font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--faint); }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html">← Go Back</a>
+    <a href="index.html">Home</a>
+  </nav>
+
+  <h1>Experience</h1>
+
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-title">Research Intern</span>
+      <span class="entry-meta">Summer 2024</span>
+    </div>
+    <p class="entry-place">Harish-Chandra Research Institute (HRI), Allahabad</p>
+    <div class="entry-desc">
+      <ul>
+        <li>Worked on the theory of symplectic matrices and their structural properties.</li>
+        <li>Studied stabilization of Hamiltonian systems using symplectic methods.</li>
+        <li>Explored connections between classical mechanics and modern geometric analysis.</li>
+      </ul>
+    </div>
+    <div class="tags">
+      <span class="tag">symplectic matrices</span>
+      <span class="tag">Hamiltonian systems</span>
+      <span class="tag">geometric mechanics</span>
+    </div>
+  </div>
+
+  <hr />
+
+  <p style="font-family:'DM Mono',monospace;font-size:0.78rem;color:var(--faint);">More to come.</p>
+
+  <footer>© 2025 Himanshu Mishra</footer>
+
+</body>
+</html>

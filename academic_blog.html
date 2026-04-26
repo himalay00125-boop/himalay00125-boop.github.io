@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Himanshu Mishra | Academic Notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- KaTeX for math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --text: #1a1a1a; --muted: #555; --faint: #888; --border: #ddd; --bg: #fff; }
+    @media (prefers-color-scheme: dark) {
+      :root { --text: #e8e6e0; --muted: #aaa; --faint: #777; --border: #333; --bg: #111; }
+    }
+    body {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 18px; line-height: 1.8;
+      color: var(--text); background: var(--bg);
+      max-width: 660px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    }
+    .nav { font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--muted); margin-bottom: 2.5rem; display: flex; gap: 1.25rem; }
+    .nav a { color: var(--muted); text-decoration: none; border-bottom: 0.5px solid var(--border); padding-bottom: 1px; }
+    .nav a:hover { color: var(--text); }
+    h1 { font-size: 1.5rem; font-weight: 500; margin-bottom: 0.5rem; }
+    .intro { font-size: 0.95rem; color: var(--muted); margin-bottom: 2rem; }
+    hr { border: none; border-top: 0.5px solid var(--border); margin: 1.75rem 0; }
+    .post-list { list-style: none; padding: 0; }
+    .post-item { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 0.5rem 0; border-bottom: 0.5px solid var(--border); }
+    .post-item:first-child { border-top: 0.5px solid var(--border); }
+    .post-link { font-size: 0.97rem; color: var(--text); text-decoration: none; }
+    .post-link:hover { border-bottom: 0.5px solid var(--muted); }
+    .post-date { font-family: 'DM Mono', monospace; font-size: 0.74rem; color: var(--faint); white-space: nowrap; }
+    .placeholder { font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--faint); margin-top: 0.75rem; }
+
+    /* ── Individual post styles (used when you render a post inline) ── */
+    .post-title { font-size: 1.4rem; font-weight: 500; margin-bottom: 0.3rem; }
+    .post-meta { font-family: 'DM Mono', monospace; font-size: 0.76rem; color: var(--faint); margin-bottom: 2rem; }
+    .post-body h2 { font-size: 1.1rem; font-weight: 500; margin: 2rem 0 0.5rem; }
+    .post-body p { margin-bottom: 1rem; }
+    .post-body em { font-style: italic; }
+    .post-body a { color: var(--text); border-bottom: 0.5px solid var(--border); text-decoration: none; }
+    .post-body a:hover { border-color: var(--muted); }
+    .post-body blockquote { border-left: 2px solid var(--border); padding-left: 1rem; color: var(--muted); margin: 1.25rem 0; font-style: italic; }
+    footer { margin-top: 3rem; font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--faint); }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="blogs.html">← Go Back</a>
+    <a href="index.html">Home</a>
+  </nav>
+
+  <h1>Academic Notes</h1>
+  <p class="intro">Expository writing on symplectic geometry, geometric mechanics, and the mathematical foundations of machine learning.</p>
+
+  <hr />
+
+  <!--
+    ══════════════════════════════════════════════════
+    HOW TO ADD A POST
+    ══════════════════════════════════════════════════
+    Option A — Link to a separate file (recommended for long posts):
+      Create posts/my-post.html (copy the post template at the bottom of this comment),
+      then add to the list below:
+
+      <li class="post-item">
+        <a class="post-link" href="posts/my-post.html">Title of Post</a>
+        <span class="post-date">June 2025</span>
+      </li>
+
+    Option B — Inline post (for short notes):
+      After the <ul>, add a <hr/> then the post markup:
+
+      <h2 class="post-title">Title</h2>
+      <p class="post-meta">June 2025</p>
+      <div class="post-body">
+        <p>Your content here. Use $...$ for inline math and $$...$$ for display math.</p>
+      </div>
+    ══════════════════════════════════════════════════
+  -->
+
+  <ul class="post-list">
+    <!-- ADD POSTS HERE — see comment above -->
+  </ul>
+  <p class="placeholder">Posts coming soon.</p>
+
+  <footer>© 2025 Himanshu Mishra</footer>
+
+</body>
+</html>

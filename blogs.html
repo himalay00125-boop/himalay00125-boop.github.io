@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Himanshu Mishra | Blogs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --text: #1a1a1a; --muted: #555; --faint: #888; --border: #ddd; --bg: #fff; }
+    @media (prefers-color-scheme: dark) {
+      :root { --text: #e8e6e0; --muted: #aaa; --faint: #777; --border: #333; --bg: #111; }
+    }
+    body {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 18px; line-height: 1.8;
+      color: var(--text); background: var(--bg);
+      max-width: 660px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem;
+    }
+    .nav { font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--muted); margin-bottom: 2.5rem; display: flex; gap: 1.25rem; }
+    .nav a { color: var(--muted); text-decoration: none; border-bottom: 0.5px solid var(--border); padding-bottom: 1px; }
+    .nav a:hover { color: var(--text); }
+    h1 { font-size: 1.5rem; font-weight: 500; margin-bottom: 0.5rem; }
+    .intro { font-size: 0.95rem; color: var(--muted); margin-bottom: 2rem; }
+    hr { border: none; border-top: 0.5px solid var(--border); margin: 1.75rem 0; }
+    h2 { font-size: 1.1rem; font-weight: 500; margin-bottom: 0.3rem; }
+    h2 a { color: var(--text); text-decoration: none; border-bottom: 0.5px solid var(--border); }
+    h2 a:hover { border-color: var(--muted); }
+    .blog-desc { font-size: 0.95rem; color: var(--muted); line-height: 1.7; }
+    .post-list { margin-top: 1rem; list-style: none; padding: 0; }
+    .post-item { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 0.45rem 0; border-bottom: 0.5px solid var(--border); }
+    .post-item:first-child { border-top: 0.5px solid var(--border); }
+    .post-link { font-size: 0.97rem; color: var(--text); text-decoration: none; }
+    .post-link:hover { border-bottom: 0.5px solid var(--muted); }
+    .post-date { font-family: 'DM Mono', monospace; font-size: 0.74rem; color: var(--faint); white-space: nowrap; }
+    .placeholder { font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--faint); margin-top: 0.75rem; }
+    footer { margin-top: 3rem; font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--faint); }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html">← Go Back</a>
+    <a href="index.html">Home</a>
+  </nav>
+
+  <h1>Blogs</h1>
+  <p class="intro">Writing about mathematics, geometry, and things I find worth explaining.</p>
+
+  <hr />
+
+  <h2><a href="academic_blog.html">Academic Notes</a></h2>
+  <p class="blog-desc">Expository writing on topics in symplectic geometry, geometric mechanics, and mathematical foundations of machine learning.</p>
+
+  <!-- Post list — add entries here as: <li class="post-item"><a class="post-link" href="posts/your-post.html">Post title</a><span class="post-date">Month YYYY</span></li> -->
+  <ul class="post-list">
+    <!-- POSTS GO HERE -->
+  </ul>
+  <p class="placeholder">Posts coming soon.</p>
+
+  <hr />
+
+  <h2>Beyond the Blackboard</h2>
+  <p class="blog-desc">Thoughts on sport, puzzles, life at IISERB, and other things that don't belong in a proof.</p>
+  <p class="placeholder">Posts coming soon.</p>
+
+  <footer>© 2025 Himanshu Mishra</footer>
+
+</body>
+</html>

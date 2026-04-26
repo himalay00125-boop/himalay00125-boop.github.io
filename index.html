@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Himanshu Mishra</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --text: #1a1a1a;
+      --muted: #555;
+      --faint: #888;
+      --border: #ddd;
+      --bg: #fff;
+      --link: #1a1a1a;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text: #e8e6e0;
+        --muted: #aaa;
+        --faint: #777;
+        --border: #333;
+        --bg: #111;
+        --link: #e8e6e0;
+      }
+    }
+    body {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.8;
+      color: var(--text);
+      background: var(--bg);
+      max-width: 660px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+    }
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .profile img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--border);
+    }
+    .profile-placeholder {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: #f0ede8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 1.1rem;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+    @media (prefers-color-scheme: dark) {
+      .profile-placeholder { background: #222; }
+    }
+    h1 {
+      font-size: 1.9rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+    .subtitle {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 1rem;
+      margin: 1.5rem 0 2rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+    }
+    .links a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 0.5px solid var(--border);
+      padding-bottom: 1px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .links a:hover { color: var(--text); border-color: var(--muted); }
+    hr { border: none; border-top: 0.5px solid var(--border); margin: 2rem 0; }
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--faint);
+      margin-bottom: 0.9rem;
+    }
+    .about { font-size: 1.02rem; line-height: 1.85; }
+    .about a { color: var(--link); }
+    footer {
+      margin-top: 3rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--faint);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="profile">
+    <div class="profile-placeholder">HM</div>
+    <div>
+      <h1>Himanshu Mishra</h1>
+      <p class="subtitle">Mathematics · IISER Bhopal</p>
+    </div>
+  </div>
+
+  <div class="links">
+    <a href="mailto:himalay00125@gmail.com">email</a>
+    <a href="experience.html">experience</a>
+    <a href="projects.html">projects</a>
+    <a href="blogs.html">blogs</a>
+    <a href="beyond_work.html">beyond work</a>
+    <a href="https://github.com/himalay00125-boop" target="_blank">github</a>
+    <a href="https://math.stackexchange.com/users/1164284/himalay-mishra" target="_blank">math stack exchange</a>
+    <a href="https://www.linkedin.com/in/himanshu-mishra-24076121a" target="_blank">linkedin</a>
+  </div>
+
+  <hr />
+
+  <p class="section-label">About</p>
+  <div class="about">
+    <p>
+      I am a Mathematics undergraduate at <a href="https://www.iiserb.ac.in/" target="_blank">IISER Bhopal</a>, with a deep interest in geometry and its applications in data science. My focus lies particularly in <em>symplectic geometry</em> — including symplectic analysis, SRNNs, symplectic encoders, and symplectic embedding problems. I enjoy exploring how classical geometric structures illuminate modern machine learning.
+    </p>
+  </div>
+
+  <footer>© 2025 Himanshu Mishra</footer>
+
+</body>
+</html>
