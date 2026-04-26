@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Himanshu Mishra | What is a Symplectic Manifold?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ]
+    });"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --text:   #2c2016;
+      --muted:  #6b5744;
+      --faint:  #a08c78;
+      --border: #d9ccbb;
+      --bg:     #f7f3ec;
+    }
+    body {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.85;
+      color: var(--text);
+      background: var(--bg);
+      max-width: 660px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 5rem;
+    }
+    .nav {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 2.75rem;
+      display: flex;
+      gap: 1.25rem;
+    }
+    .nav a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 0.5px solid var(--border);
+      padding-bottom: 1px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .nav a:hover { color: var(--text); border-color: var(--muted); }
+    .post-title {
+      font-size: 1.65rem;
+      font-weight: 500;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.5rem;
+    }
+    .post-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.76rem;
+      color: var(--faint);
+      margin-bottom: 2.25rem;
+    }
+    hr { border: none; border-top: 0.5px solid var(--border); margin: 2rem 0; }
+    h2 { font-size: 1.15rem; font-weight: 500; margin: 2.25rem 0 0.6rem; }
+    h3 { font-size: 1rem; font-weight: 500; font-style: italic; margin: 1.75rem 0 0.4rem; }
+    p { margin-bottom: 1rem; }
+    em { font-style: italic; }
+    strong { font-weight: 500; }
+    a { color: var(--text); text-decoration: none; border-bottom: 0.5px solid var(--border); }
+    a:hover { border-color: var(--muted); }
+    .katex-display { margin: 1.5rem 0; overflow-x: auto; }
+    blockquote {
+      border-left: 2px solid var(--border);
+      margin: 1.5rem 0;
+      padding: 0.1rem 0 0.1rem 1.25rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+    .theorem, .definition, .lemma, .remark, .example {
+      border-left: 2px solid var(--border);
+      padding: 0.25rem 0 0.25rem 1.25rem;
+      margin: 1.5rem 0;
+    }
+    .theorem-label, .definition-label, .lemma-label, .remark-label, .example-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--faint);
+      margin-bottom: 0.3rem;
+    }
+    .references h2 { margin-top: 2.5rem; }
+    .references ol { padding-left: 1.3rem; font-size: 0.93rem; color: var(--muted); }
+    .references li { margin-bottom: 0.5rem; line-height: 1.65; }
+    footer { margin-top: 3.5rem; font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--faint); }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="../academic_blog.html">← Go Back</a>
+    <a href="../index.html">Home</a>
+  </nav>
+
+  <h1 class="post-title">What is a Symplectic Manifold?</h1>
+  <p class="post-date">26 April, 2025</p>
+
+  <p>
+    Classical mechanics begins with a phase space: positions and momenta of a system
+    living together in a single geometric object. For a particle moving in $\mathbb{R}^n$,
+    the phase space is $\mathbb{R}^{2n}$, with coordinates $(q_1, \ldots, q_n, p_1, \ldots, p_n)$.
+    What makes this space special is not its dimension but a particular geometric structure
+    it carries — one that tells us how positions and momenta are intertwined.
+    That structure is the <em>symplectic form</em>, and the manifolds that carry it are
+    the subject of symplectic geometry.
+  </p>
+
+  <p>
+    In this note I want to explain what a symplectic manifold is, give the canonical
+    examples, and say something about why the two defining conditions — closedness and
+    non-degeneracy — are not mere technicalities but load-bearing parts of the theory.
+  </p>
+
+  <h2>The Definition</h2>
+
+  <div class="definition">
+    <p class="definition-label">Definition 1.1 — Symplectic Manifold</p>
+    <p>
+      A <em>symplectic manifold</em> is a pair $(M, \omega)$ where $M$ is a smooth
+      manifold of even dimension $2n$ and $\omega \in \Omega^2(M)$ is a differential
+      2-form satisfying:
+    </p>
+    <p style="margin-top:0.6rem;">(i) <strong>Closed:</strong> $d\omega = 0$,</p>
+    <p>(ii) <strong>Non-degenerate:</strong> for every $p \in M$ and every nonzero
+      $v \in T_pM$, there exists $w \in T_pM$ such that $\omega_p(v, w) \neq 0$.</p>
+  </div>
+
+  <p>
+    The form $\omega$ is called the <em>symplectic form</em>. Non-degeneracy is the
+    condition that $\omega$ is a perfect pairing on each tangent space: the map
+    $v \mapsto \omega(v, \cdot)$ from $T_pM$ to $T_p^*M$ is an isomorphism.
+    This forces $M$ to be even-dimensional — an odd-dimensional manifold cannot
+    carry a non-degenerate 2-form.
+  </p>
+
+  <h2>The Canonical Example</h2>
+
+  <p>
+    The most fundamental example is $\mathbb{R}^{2n}$ with coordinates
+    $(q_1, \ldots, q_n, p_1, \ldots, p_n)$, equipped with the standard symplectic form:
+  </p>
+
+  $$\omega_0 = \sum_{i=1}^n dq_i \wedge dp_i.$$
+
+  <p>
+    This is closed because it has constant coefficients, and it is non-degenerate because
+    in the basis $\{\partial_{q_i}, \partial_{p_i}\}$ it takes the matrix form
+  </p>
+
+  $$\Omega = \begin{pmatrix} 0 & I_n \\ -I_n & 0 \end{pmatrix},$$
+
+  <p>
+    which is clearly invertible. This matrix $\Omega$ is the one that appears throughout
+    classical mechanics — it encodes the Poisson bracket, Hamilton's equations,
+    and the structure of canonical transformations all at once.
+  </p>
+
+  <div class="example">
+    <p class="example-label">Example 1.2 — The Cotangent Bundle</p>
+    <p>
+      If $Q$ is any smooth $n$-dimensional manifold (the <em>configuration space</em>),
+      its cotangent bundle $T^*Q$ carries a canonical symplectic form. There is a
+      tautological 1-form $\lambda \in \Omega^1(T^*Q)$, defined by
+      $\lambda_{(q,p)}(v) = p(\pi_* v)$ where $\pi: T^*Q \to Q$ is the projection.
+      Then $\omega = -d\lambda$ is symplectic. In local coordinates,
+      $\lambda = \sum_i p_i \, dq_i$ and $\omega = \sum_i dq_i \wedge dp_i$,
+      recovering the standard form.
+    </p>
+  </div>
+
+  <p>
+    Cotangent bundles are the natural phase spaces of classical mechanics.
+    The configuration space $Q$ encodes positions; the fibre over each point
+    encodes momenta. The symplectic form is not an additional structure imposed
+    on this space — it emerges canonically from the geometry of $T^*Q$ itself.
+  </p>
+
+  <h2>Why Closedness?</h2>
+
+  <p>
+    Non-degeneracy has a clear mechanical interpretation: it says that positions
+    and momenta are genuinely paired, that no direction in phase space is invisible
+    to $\omega$. But why require $d\omega = 0$?
+  </p>
+
+  <p>
+    One answer comes from Darboux's theorem, which is the foundational local result
+    of symplectic geometry.
+  </p>
+
+  <div class="theorem">
+    <p class="theorem-label">Theorem 2.1 — Darboux</p>
+    <p>
+      Let $(M, \omega)$ be a symplectic manifold and $p \in M$. Then there exist
+      local coordinates $(q_1, \ldots, q_n, p_1, \ldots, p_n)$ near $p$ in which
+      $$\omega = \sum_{i=1}^n dq_i \wedge dp_i.$$
+      In particular, all symplectic manifolds of the same dimension are locally
+      symplectomorphic.
+    </p>
+  </div>
+
+  <p>
+    Darboux's theorem is striking: unlike Riemannian geometry, symplectic geometry
+    has no local invariants. You cannot distinguish two symplectic manifolds of the
+    same dimension by any local measurement. All the interesting geometry is global.
+    The proof uses the <em>Moser trick</em> — a deformation argument that requires
+    $d\omega = 0$ in an essential way to construct the interpolating vector fields.
+    Without closedness, Darboux fails and local invariants appear.
+  </p>
+
+  <blockquote>
+    Symplectic geometry is, in a precise sense, the geometry of global phenomena.
+    Locally there is nothing to see.
+  </blockquote>
+
+  <h2>Non-degeneracy and the Volume Form</h2>
+
+  <p>
+    Non-degeneracy has a beautiful global consequence. If $\dim M = 2n$, the
+    $n$-fold wedge product
+  </p>
+
+  $$\omega^n = \underbrace{\omega \wedge \cdots \wedge \omega}_{n \text{ times}}$$
+
+  <p>
+    is a nowhere-vanishing top-degree form on $M$ — a volume form. This means every
+    symplectic manifold is orientable, and if $M$ is compact, it satisfies
+  </p>
+
+  $$\int_M \omega^n \neq 0.$$
+
+  <p>
+    This is a strong topological constraint. It implies, for instance, that the
+    even-dimensional cohomology groups $H^{2k}(M; \mathbb{R})$ are all non-trivial
+    for $0 \leq k \leq n$ — the symplectic form produces non-zero cohomology classes
+    $[\omega], [\omega^2], \ldots, [\omega^n]$. Spheres $S^{2n}$ for $n \geq 2$
+    fail this: $H^2(S^{2n}; \mathbb{R}) = 0$, so they carry no symplectic structure.
+  </p>
+
+  <div class="remark">
+    <p class="remark-label">Remark 2.2</p>
+    <p>
+      The sphere $S^2$ is the exception: it does carry a symplectic form,
+      namely the standard area form. It is the only sphere that does.
+      This is one reason $S^2$ plays a distinguished role in symplectic topology.
+    </p>
+  </div>
+
+  <h2>Hamilton's Equations Revisited</h2>
+
+  <p>
+    The symplectic form provides the language in which classical mechanics is
+    most naturally stated. Given a smooth function $H: M \to \mathbb{R}$
+    (the <em>Hamiltonian</em>), non-degeneracy of $\omega$ guarantees the
+    existence of a unique vector field $X_H$ satisfying
+  </p>
+
+  $$\iota_{X_H} \omega = dH,$$
+
+  <p>
+    where $\iota_{X_H}\omega$ denotes the interior product. This is the
+    <em>Hamiltonian vector field</em> of $H$. In Darboux coordinates,
+    the flow of $X_H$ satisfies exactly
+  </p>
+
+  $$\dot{q}_i = \frac{\partial H}{\partial p_i}, \qquad \dot{p}_i = -\frac{\partial H}{\partial q_i},$$
+
+  <p>
+    which are Hamilton's equations. The symplectic form is not a convenient
+    notation here — it is the object that makes the passage from $H$ to its
+    equations of motion well-defined on any manifold, not just $\mathbb{R}^{2n}$.
+  </p>
+
+  <h2>Looking Ahead</h2>
+
+  <p>
+    What I find compelling about symplectic geometry is that it sits at an
+    unusual intersection. On one side, it encodes the structure of classical
+    mechanics with complete precision. On the other, its global questions —
+    when can one symplectic manifold be embedded in another? how rigid are
+    symplectomorphisms? — turn out to be extraordinarily hard and to connect
+    with the deepest parts of topology and analysis.
+  </p>
+
+  <p>
+    In future posts I want to explore symplectic capacities and embedding
+    problems, and then turn to how symplectic ideas are entering data science
+    through structure-preserving neural networks. Both directions start here,
+    with this definition and its two conditions.
+  </p>
+
+  <div class="references">
+    <h2>References</h2>
+    <ol>
+      <li>
+        McDuff, D. &amp; Salamon, D. (2017). <em>Introduction to Symplectic Topology</em>,
+        3rd ed. Oxford University Press.
+      </li>
+      <li>
+        Arnold, V. I. (1989). <em>Mathematical Methods of Classical Mechanics</em>,
+        2nd ed. Springer Graduate Texts in Mathematics.
+      </li>
+      <li>
+        Cannas da Silva, A. (2008). <em>Lectures on Symplectic Geometry</em>.
+        Springer Lecture Notes in Mathematics.
+        <a href="https://people.math.ethz.ch/~acannas/Papers/lsg.pdf" target="_blank">PDF</a>.
+      </li>
+    </ol>
+  </div>
+
+  <footer>© 2025 Himanshu Mishra</footer>
+
+</body>
+</html>
