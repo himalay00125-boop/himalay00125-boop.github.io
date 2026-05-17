@@ -247,7 +247,7 @@ These are notes written partly to understand the connection myself, so there wil
     <li><a href="#s3">Hamiltonian flows and the iso-Sharpe foliation</a></li>
     <li><a href="#s4">The efficient frontier as a Lagrangian submanifold</a></li>
     <li><a href="#s5">Contactification and the role of the risk-free rate</a></li>
-    <li><a href="#s6">Summary and open directions</a></li>
+    
   </ol>
 </div>
 
@@ -502,30 +502,7 @@ This viewpoint unifies the entire portfolio optimisation picture — Sharpe rati
 
 <hr>
 
-<!-- ── Section 6 ── -->
-<h2 id="s6">6. Summary and open directions</h2>
 
-<p>
-Let me state the main thread without jargon.
-</p>
-
-<p>
-<strong>Symplectically:</strong> mean-variance space is a symplectic manifold $(M, \omega = d\sigma^2 \wedge d\mu)$, and the Sharpe ratio is a Hamiltonian function on it. Sharpe-preserving portfolio transformations conserve the symplectic area — a Liouville-type conservation law.
-</p>
-
-<p>
-<strong>Lagrangianly:</strong> the efficient frontier is a Lagrangian curve in $(M, \omega)$, and the maximum-Sharpe portfolio is the critical point of the Sharpe Hamiltonian restricted to this curve. This is a clean geometric reformulation of Markowitz optimisation.
-</p>
-
-<p>
-<strong>Contact-geometrically:</strong> lifting to the 3-dimensional jet space, the family of iso-Sharpe foliations across all values of $r_f$ forms a contact distribution. The Reeb flow is the infinitesimal response to changing $r_f$, and optimal portfolio curves are Legendrian.
-</p>
-
-<div class="box box-open">
-  <div class="box-title">Open directions</div>
-  <p><strong>Transaction costs and conformal symplecticity.</strong> When transaction costs are present, the Sharpe-gradient flow becomes conformally symplectic rather than strictly area-preserving. This connects to Birkhoff attractor theory (cf. Arnaud–Massetti) and raises the question of how the Legendrian structure degrades under friction.</p>
-  <p><strong>Higher-dimensional portfolio spaces.</strong> For $N$ assets, the map $\Phi : w \mapsto (\sigma^2, \mu)$ is a moment map for a torus action on $\mathbb{R}^N$. The efficient frontier's Lagrangian structure then becomes a genuine statement in symplectic reduction — something I would like to make precise.</p>
-</div>
 
 <p>
 I am still learning both sides of this — the symplectic geometry and the finance — so I would welcome corrections or pointers. The connection feels non-trivial to me, but I am not yet certain how much of it extends beyond the two-asset case in a useful way.
