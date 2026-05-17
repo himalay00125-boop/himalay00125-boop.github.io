@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Himanshu Mishra | The Symplectic Structure of the Sharpe Ratio</title>
+
+<!-- MathJax — same as your existing posts -->
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    tags: 'ams',
+    macros: {
+      R: '\\mathbb{R}',
+      d: '\\mathrm{d}'
+    }
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" crossorigin="anonymous" async></script>
+
+<!-- Chart.js for interactive figures -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+
+<style>
+  /* ── Reset & base — mirrors your site exactly ── */
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 18px;
+    line-height: 1.8;
+    color: #222;
+    background: #fff;
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  /* Navigation row */
+  .nav {
+    font-family: Georgia, serif;
+    font-size: 15px;
+    margin-bottom: 36px;
+  }
+  .nav a { color: #222; text-decoration: none; margin-right: 12px; }
+  .nav a:hover { text-decoration: underline; }
+
+  /* Title block */
+  h1 {
+    font-size: 26px;
+    font-weight: normal;
+    margin: 0 0 6px;
+    line-height: 1.3;
+  }
+
+  .post-date {
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 28px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 32px 0;
+  }
+
+  /* Headings */
+  h2 {
+    font-size: 20px;
+    font-weight: normal;
+    margin: 40px 0 12px;
+  }
+
+  h3 {
+    font-size: 17px;
+    font-weight: bold;
+    margin: 28px 0 8px;
+  }
+
+  p { margin: 0 0 18px; }
+
+  a { color: #222; }
+  a:hover { text-decoration: underline; }
+
+  em { font-style: italic; }
+  strong { font-weight: bold; }
+
+  /* Callout boxes — styled like your definition/theorem blocks */
+  .box {
+    border-left: 3px solid #bbb;
+    padding: 12px 16px;
+    margin: 24px 0;
+    background: #f9f9f9;
+  }
+  .box .box-title {
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #555;
+    margin-bottom: 8px;
+  }
+  .box p { margin-bottom: 8px; font-size: 16px; }
+  .box p:last-child { margin-bottom: 0; }
+
+  .box-def  { border-left-color: #555; }
+  .box-thm  { border-left-color: #333; background: #f5f5f5; }
+  .box-rem  { border-left-color: #888; }
+  .box-open { border-left-color: #aaa; }
+
+  blockquote {
+    border-left: 3px solid #ccc;
+    margin: 20px 0;
+    padding: 4px 16px;
+    color: #555;
+    font-style: italic;
+  }
+
+  /* Code / mono */
+  code {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    background: #f4f4f4;
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  /* Table of contents */
+  .toc {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    padding: 16px 20px;
+    margin: 24px 0 36px;
+    font-size: 15px;
+  }
+  .toc p { margin: 0 0 6px; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; color: #555; }
+  .toc ol { margin: 0; padding-left: 20px; line-height: 2; }
+  .toc ol li a { color: #333; text-decoration: none; }
+  .toc ol li a:hover { text-decoration: underline; }
+
+  /* ── Interactive figure panels ── */
+  .fig-panel {
+    border: 1px solid #e0e0e0;
+    padding: 18px 20px;
+    margin: 32px 0;
+    background: #fafafa;
+  }
+
+  .fig-label {
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #555;
+    margin-bottom: 14px;
+  }
+
+  .controls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px 16px;
+    margin-bottom: 14px;
+  }
+
+  .ctrl { display: flex; flex-direction: column; gap: 3px; }
+  .ctrl-label { font-size: 12px; color: #666; font-family: Georgia, serif; }
+  .ctrl-val   { font-size: 13px; font-family: 'Courier New', monospace; color: #333; }
+  input[type=range] { width: 100%; margin: 2px 0; accent-color: #444; }
+
+  .canvas-box {
+    border: 1px solid #e8e8e8;
+    background: #fff;
+    margin: 8px 0;
+  }
+  canvas { display: block; width: 100%; }
+
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 10px 0 6px;
+  }
+  .metric {
+    border: 1px solid #e0e0e0;
+    padding: 8px 10px;
+    text-align: center;
+    background: #fff;
+  }
+  .metric-lbl { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 3px; }
+  .metric-val { font-size: 20px; font-family: 'Courier New', monospace; }
+
+  .fig-caption {
+    font-size: 13px;
+    color: #777;
+    font-style: italic;
+    margin-top: 8px;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  /* References */
+  ol.refs { padding-left: 20px; }
+  ol.refs li { margin-bottom: 8px; font-size: 16px; }
+
+  /* Footer */
+  .footer {
+    font-size: 14px;
+    color: #666;
+    margin-top: 60px;
+  }
+
+  @media (max-width: 500px) {
+    body { padding: 24px 16px 60px; }
+    .metrics-row { grid-template-columns: 1fr 1fr; }
+    .controls-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <a href="academic_blog.html">← Go Back</a>
+  <a href="index.html">Home</a>
+</div>
+
+<h1>The Symplectic Structure of the Sharpe Ratio</h1>
+<div class="post-date">May 2025</div>
+
+<p>
+The Sharpe ratio is usually introduced as a performance metric — a signal-to-noise ratio for portfolio returns. And in practice it is used exactly that way. But once you start asking geometric questions about it — what kind of function is it? what are its level sets? does it come with a natural vector field? — the answer starts pointing towards symplectic and contact geometry in a way that feels genuinely non-accidental. That is what I want to work through here.
+</p>
+
+<p>
+These are notes written partly to understand the connection myself, so there will be moments where I say things like "I find this surprising" or "I am not sure whether this is more than a coincidence." The mathematics is real; the enthusiasm for it is also real.
+</p>
+
+<div class="toc">
+  <p>Contents</p>
+  <ol>
+    <li><a href="#s1">The Sharpe ratio as a geometric object</a></li>
+    <li><a href="#s2">Mean-variance space as a symplectic manifold</a></li>
+    <li><a href="#s3">Hamiltonian flows and the iso-Sharpe foliation</a></li>
+    <li><a href="#s4">The efficient frontier as a Lagrangian submanifold</a></li>
+    <li><a href="#s5">Contactification and the role of the risk-free rate</a></li>
+    <li><a href="#s6">Summary and open directions</a></li>
+  </ol>
+</div>
+
+<hr>
+
+<!-- ── Section 1 ── -->
+<h2 id="s1">1. The Sharpe ratio as a geometric object</h2>
+
+<p>
+Fix a risk-free rate $r_f \geq 0$. The Sharpe ratio of a portfolio with expected return $\mu$ and volatility $\sigma > 0$ is
+$$S(\mu, \sigma) = \frac{\mu - r_f}{\sigma}.$$
+</p>
+
+<p>
+Think of the upper half-plane $H = \{(\mu, \sigma) : \sigma > 0\}$ as the space of all portfolios, parametrised by their mean return and volatility. Then $S$ is a smooth function $S : H \to \mathbb{R}$, and its level sets are
+$$L_c = \bigl\{(\mu, \sigma) \in H : S(\mu,\sigma) = c\bigr\} = \bigl\{\mu = r_f + c\sigma\bigr\}.$$
+These are rays emanating from the point $(r_f, 0)$ in the $(\mu, \sigma)$-plane — a pencil of lines through the risk-free rate on the $\mu$-axis. Two portfolios lie on the same iso-Sharpe ray if and only if one is a leveraged or deleveraged version of the other.
+</p>
+
+<div class="box box-rem">
+  <div class="box-title">Observation</div>
+  <p>The Sharpe ratio is <em>positively $0$-homogeneous</em> in the translated variable $(\mu - r_f, \sigma)$: scaling both by any positive constant $\lambda$ leaves $S$ unchanged. This is the first hint of projective structure — $S$ is really a function on the projectivised excess-return/risk space.</p>
+</div>
+
+<p>
+The gradient of $S$ with respect to the standard metric on $(\sigma, \mu)$-space is everywhere perpendicular to the iso-Sharpe rays, pointing in the direction of increasing Sharpe ratio. Play with the figure below to get a feel for the pencil of rays.
+</p>
+
+<!-- Figure 1 -->
+<div class="fig-panel">
+  <div class="fig-label">Figure 1 — Level sets of the Sharpe ratio</div>
+  <div class="controls-grid">
+    <div class="ctrl">
+      <span class="ctrl-label">Risk-free rate $r_f$</span>
+      <input type="range" id="rf1" min="0" max="6" value="2" step="0.1" oninput="drawLS()">
+      <span class="ctrl-val" id="rf1v">2.0%</span>
+    </div>
+  </div>
+  <div class="canvas-box" style="height:280px;">
+    <canvas id="cvLS"></canvas>
+  </div>
+  <p class="fig-caption">Iso-Sharpe rays $L_c$ in the $(\sigma, \mu)$ half-plane for various values of $c$. Drag the slider to shift $r_f$ — the entire pencil pivots about $(0, r_f)$.</p>
+</div>
+
+<hr>
+
+<!-- ── Section 2 ── -->
+<h2 id="s2">2. Mean-variance space as a symplectic manifold</h2>
+
+<p>
+The classical Markowitz framework works in $({\sigma^2}, \mu)$-space rather than $(\sigma, \mu)$-space. Set $q = \sigma^2$ (variance) and $p = \mu$ (mean return). The space $M = \mathbb{R}_{>0} \times \mathbb{R}$ then carries a natural symplectic 2-form
+$$\omega = dq \wedge dp = d(\sigma^2) \wedge d\mu.$$
+This is the canonical symplectic structure on the cotangent bundle $T^*\mathbb{R}$, restricted to the positive half. In the language of classical mechanics, $q = \sigma^2$ plays the role of position and $p = \mu$ plays the role of momentum.
+</p>
+
+<p>
+The area element $\omega$ has a financial interpretation I find satisfying: it measures the efficiency of a mean-variance tradeoff — how much additional expected return one gains per unit of additional variance.
+</p>
+
+<div class="box box-def">
+  <div class="box-title">Definition — Sharpe ratio in $(q, p)$ coordinates</div>
+  <p>In the coordinates $(q, p) = (\sigma^2, \mu)$, the Sharpe ratio becomes
+  $$S(q, p) = \frac{p - r_f}{\sqrt{q}}.$$
+  Its gradient with respect to the standard metric on $\mathbb{R}^2$ is
+  $$\nabla S = \left(-\frac{p - r_f}{2q^{3/2}},\; \frac{1}{\sqrt{q}}\right).$$
+  </p>
+</div>
+
+<p>
+In symplectic geometry, every smooth function $H$ on a symplectic manifold $(M, \omega)$ defines a <em>Hamiltonian vector field</em> $X_H$ by the equation $\iota_{X_H}\omega = -dH$. For our Sharpe Hamiltonian this gives
+$$X_S = \frac{\partial S}{\partial p}\,\partial_q - \frac{\partial S}{\partial q}\,\partial_p = \frac{1}{\sqrt{q}}\,\partial_q + \frac{p - r_f}{2q^{3/2}}\,\partial_p.$$
+The flow lines of $X_S$ are the integral curves along which the Sharpe ratio improves most efficiently in the symplectic sense — not the Euclidean gradient direction, but its symplectic rotation.
+</p>
+
+<div class="box box-thm">
+  <div class="box-title">Proposition</div>
+  <p>The level sets of $S$ (the iso-Sharpe rays) are precisely the integral curves of the Hamiltonian vector field $X_S$. That is, $\ker(dS)$ at each point is spanned by $X_S$, so the iso-Sharpe rays are the trajectories of the Hamiltonian flow of $S$.</p>
+</div>
+
+<hr>
+
+<!-- ── Section 3 ── -->
+<h2 id="s3">3. Hamiltonian flows and the iso-Sharpe foliation</h2>
+
+<p>
+Liouville's theorem says that Hamiltonian flows preserve the symplectic volume form. In our two-dimensional setting, the Hamiltonian flow of $S$ preserves the area form $\omega = d\sigma^2 \wedge d\mu$.
+</p>
+
+<div class="box box-rem">
+  <div class="box-title">Liouville conservation law</div>
+  <p>For any compact region $D \subset M$, its image $\varphi_t(D)$ under the Hamiltonian flow satisfies
+  $$\int_{\varphi_t(D)} \omega = \int_D \omega.$$
+  Financially: the "mean-variance area" is a symplectic invariant of Sharpe-preserving portfolio transformations. Leveraging and deleveraging rearranges portfolios without changing the total area they span in mean-variance space.</p>
+</div>
+
+<p>
+The flow equations in $(q, p)$-coordinates are:
+$$\dot{q} = \frac{\partial S}{\partial p} = \frac{1}{\sqrt{q}}, \qquad \dot{p} = -\frac{\partial S}{\partial q} = \frac{p - r_f}{2q^{3/2}}.$$
+Along a flow line, $S$ is conserved (it is the Hamiltonian), and the trajectory sweeps out a ray in $(\sigma, \mu)$-space. The flow <em>dilates</em> along the ray — portfolios with equal Sharpe ratios evolve towards each other by leveraging or deleveraging.
+</p>
+
+<p>
+The foliation of $M$ by iso-Sharpe rays is a 1-dimensional foliation of the half-plane. The space of leaves is naturally identified with $\mathbb{R} \cup \{\pm\infty\}$ (the range of Sharpe values), and the projection $S : M \to \mathbb{R}$ is a Lagrangian fibration in a generalised sense.
+</p>
+
+<!-- Figure 2 -->
+<div class="fig-panel">
+  <div class="fig-label">Figure 2 — Hamiltonian flow lines in $(\sigma^2, \mu)$-space</div>
+  <div class="controls-grid">
+    <div class="ctrl">
+      <span class="ctrl-label">Risk-free rate $r_f$ (%)</span>
+      <input type="range" id="rf2" min="0" max="5" value="2" step="0.1" oninput="drawFlow()">
+      <span class="ctrl-val" id="rf2v">2.0%</span>
+    </div>
+    <div class="ctrl">
+      <span class="ctrl-label">Highlighted Liouville region</span>
+      <input type="range" id="area2" min="1" max="5" value="3" step="1" oninput="drawFlow()">
+      <span class="ctrl-val" id="area2v">region 3</span>
+    </div>
+  </div>
+  <div class="canvas-box" style="height:280px;">
+    <canvas id="cvFlow"></canvas>
+  </div>
+  <p class="fig-caption">Flow lines of $X_S$ (iso-Sharpe curves) in $(\sigma^2, \mu)$-space. The shaded region illustrates Liouville area preservation — it is sheared by the flow but maintains constant symplectic area $\int\omega$.</p>
+</div>
+
+<hr>
+
+<!-- ── Section 4 ── -->
+<h2 id="s4">4. The efficient frontier as a Lagrangian submanifold</h2>
+
+<p>
+Now consider $N$ risky assets. The portfolio map is
+$$\Phi : w \mapsto \bigl(\sigma^2(w),\, \mu(w)\bigr) = \bigl(w^\top \Sigma w,\, w^\top \boldsymbol{\mu}\bigr),$$
+where $\Sigma$ is the covariance matrix and $\boldsymbol{\mu}$ the mean return vector. The image of $\Phi$ is the <em>attainable set</em> — a convex region whose upper boundary is the mean-variance frontier. In the $(q, p) = (\sigma^2, \mu)$ plane the efficient frontier is a parabola:
+$$\mu = \frac{A}{C} + \sqrt{\left(\frac{B}{C} - \frac{A^2}{C^2}\right)\!\left(\sigma^2 - \frac{1}{C}\right)},$$
+where $A = \mathbf{1}^\top \Sigma^{-1}\boldsymbol{\mu}$, $B = \boldsymbol{\mu}^\top \Sigma^{-1}\boldsymbol{\mu}$, $C = \mathbf{1}^\top \Sigma^{-1}\mathbf{1}$.
+</p>
+
+<p>
+This parabola is transverse to the iso-Sharpe foliation — each iso-Sharpe ray intersects it at most once. This sets up the geometric characterisation of the tangency portfolio.
+</p>
+
+<div class="box box-thm">
+  <div class="box-title">Theorem — Tangency portfolio, symplectic interpretation</div>
+  <p>The maximum-Sharpe-ratio portfolio (the <em>tangency portfolio</em>) is the unique point on the efficient frontier where the iso-Sharpe ray through $(r_f, 0)$ is tangent to the frontier parabola. Symplectically: it is the point where $dS$ and the conormal to the frontier are parallel — a critical point of $S$ restricted to the Lagrangian frontier curve.</p>
+  <p>The first-order optimality condition recovers the classical formula
+  $$w^* = \frac{\Sigma^{-1}(\boldsymbol{\mu} - r_f\,\mathbf{1})}{\mathbf{1}^\top \Sigma^{-1}(\boldsymbol{\mu} - r_f\,\mathbf{1})}.$$
+  </p>
+</div>
+
+<!-- Figure 3 -->
+<div class="fig-panel">
+  <div class="fig-label">Figure 3 — Efficient frontier and tangency portfolio</div>
+  <div class="controls-grid">
+    <div class="ctrl">
+      <span class="ctrl-label">Asset A return $\mu_A$</span>
+      <input type="range" id="muA" min="4" max="15" value="8" step="0.5" oninput="drawFrontier()">
+      <span class="ctrl-val" id="muAv">8.0%</span>
+    </div>
+    <div class="ctrl">
+      <span class="ctrl-label">Asset B return $\mu_B$</span>
+      <input type="range" id="muB" min="4" max="15" value="12" step="0.5" oninput="drawFrontier()">
+      <span class="ctrl-val" id="muBv">12.0%</span>
+    </div>
+    <div class="ctrl">
+      <span class="ctrl-label">Asset A volatility $\sigma_A$</span>
+      <input type="range" id="sigA" min="5" max="30" value="10" step="1" oninput="drawFrontier()">
+      <span class="ctrl-val" id="sigAv">10%</span>
+    </div>
+    <div class="ctrl">
+      <span class="ctrl-label">Asset B volatility $\sigma_B$</span>
+      <input type="range" id="sigB" min="5" max="30" value="18" step="1" oninput="drawFrontier()">
+      <span class="ctrl-val" id="sigBv">18%</span>
+    </div>
+    <div class="ctrl">
+      <span class="ctrl-label">Correlation $\rho$</span>
+      <input type="range" id="rho" min="-90" max="90" value="20" step="5" oninput="drawFrontier()">
+      <span class="ctrl-val" id="rhov">0.20</span>
+    </div>
+    <div class="ctrl">
+      <span class="ctrl-label">Risk-free rate $r_f$</span>
+      <input type="range" id="rf3" min="0" max="6" value="2" step="0.1" oninput="drawFrontier()">
+      <span class="ctrl-val" id="rf3v">2.0%</span>
+    </div>
+  </div>
+  <div class="canvas-box" style="height:310px;">
+    <canvas id="cvFront"></canvas>
+  </div>
+  <div class="metrics-row">
+    <div class="metric">
+      <div class="metric-lbl">Max Sharpe</div>
+      <div class="metric-val" id="mS">—</div>
+    </div>
+    <div class="metric">
+      <div class="metric-lbl">Tangency $\mu$</div>
+      <div class="metric-val" id="mMu">—</div>
+    </div>
+    <div class="metric">
+      <div class="metric-lbl">Tangency $\sigma$</div>
+      <div class="metric-val" id="mSig">—</div>
+    </div>
+  </div>
+  <p class="fig-caption">The efficient frontier (upper boundary of the attainable set), iso-Sharpe rays, and the capital market line tangent at the maximum-Sharpe portfolio (filled circle). Notice how the tangency point shifts as you vary $\rho$ towards $-1$.</p>
+</div>
+
+<hr>
+
+<!-- ── Section 5 ── -->
+<h2 id="s5">5. Contactification and the risk-free rate</h2>
+
+<p>
+So far $r_f$ has been fixed. But as $r_f$ varies, we obtain a one-parameter family of foliations of $H$, each pivoting about a different point on the $\mu$-axis. This family has a natural geometric home: contact geometry.
+</p>
+
+<p>
+We <em>contactify</em> by passing to the three-dimensional space $J^1(\mathbb{R}) = T^*\mathbb{R} \times \mathbb{R}$ with coordinates $(\sigma^2, \mu, r_f)$, equipped with the contact form
+$$\alpha = d\mu - S\, d\sigma = d\mu - \frac{\mu - r_f}{\sigma}\, d\sigma.$$
+This is a contact structure on the 1-jet space — the natural setting for functions together with their first derivatives. The <em>Reeb vector field</em> of $\alpha$, the unique vector field satisfying $\iota_R\, d\alpha = 0$ and $\alpha(R) = 1$, points in the $r_f$-direction. It encodes exactly how the optimal portfolio geometry responds to infinitesimal changes in the risk-free rate.
+</p>
+
+<div class="box box-def">
+  <div class="box-title">Definition — Contact geometry of the Sharpe ratio</div>
+  <p>The graph of the Sharpe ratio function $S$ defines a <em>Legendrian submanifold</em> of the contact 3-manifold $(J^1(\mathbb{R}), \alpha)$. Legendrian submanifolds are everywhere tangent to the contact distribution $\ker(\alpha)$ — they are the contact-geometric analogue of Lagrangian submanifolds.</p>
+  <p>The condition that a curve $\gamma$ in $(\sigma^2, \mu)$-space is Legendrian with respect to $\alpha$ is exactly the condition that $\gamma$ is an iso-Sharpe ray: $d\mu/d\sigma = S$ along $\gamma$.</p>
+</div>
+
+<p>
+This viewpoint unifies the entire portfolio optimisation picture — Sharpe ratio, efficient frontier, tangency portfolio, and sensitivity to $r_f$ — into the classical theory of Legendrian submanifolds and front projections in a 3-dimensional contact manifold. Each choice of $r_f$ gives a different front projection of the same underlying Legendrian geometry.
+</p>
+
+<!-- Figure 4 -->
+<div class="fig-panel">
+  <div class="fig-label">Figure 4 — Reeb flow: iso-Sharpe foliation as $r_f$ varies</div>
+  <div class="controls-grid">
+    <div class="ctrl">
+      <span class="ctrl-label">Risk-free rate (Reeb direction)</span>
+      <input type="range" id="rfAnim" min="0" max="8" value="2" step="0.1" oninput="drawContact()">
+      <span class="ctrl-val" id="rfAnimv">2.0%</span>
+    </div>
+    <div class="ctrl">
+      <span class="ctrl-label">View mode (0–2)</span>
+      <input type="range" id="showMode" min="0" max="2" step="1" value="0" oninput="drawContact()">
+      <span class="ctrl-val" id="showModev" style="font-size:11px">iso-Sharpe rays</span>
+    </div>
+  </div>
+  <div class="canvas-box" style="height:270px;">
+    <canvas id="cvContact"></canvas>
+  </div>
+  <p class="fig-caption">As $r_f$ varies (the Reeb direction), the iso-Sharpe foliation pivots. Each position of the slider is a "slice" of the contact 3-manifold $J^1(\mathbb{R})$. Mode 0: iso-Sharpe rays. Mode 1: gradient field $\nabla S$. Mode 2: level-set foliation across all $r_f$.</p>
+</div>
+
+<hr>
+
+<!-- ── Section 6 ── -->
+<h2 id="s6">6. Summary and open directions</h2>
+
+<p>
+Let me state the main thread without jargon.
+</p>
+
+<p>
+<strong>Symplectically:</strong> mean-variance space is a symplectic manifold $(M, \omega = d\sigma^2 \wedge d\mu)$, and the Sharpe ratio is a Hamiltonian function on it. Sharpe-preserving portfolio transformations conserve the symplectic area — a Liouville-type conservation law.
+</p>
+
+<p>
+<strong>Lagrangianly:</strong> the efficient frontier is a Lagrangian curve in $(M, \omega)$, and the maximum-Sharpe portfolio is the critical point of the Sharpe Hamiltonian restricted to this curve. This is a clean geometric reformulation of Markowitz optimisation.
+</p>
+
+<p>
+<strong>Contact-geometrically:</strong> lifting to the 3-dimensional jet space, the family of iso-Sharpe foliations across all values of $r_f$ forms a contact distribution. The Reeb flow is the infinitesimal response to changing $r_f$, and optimal portfolio curves are Legendrian.
+</p>
+
+<div class="box box-open">
+  <div class="box-title">Open directions</div>
+  <p><strong>Transaction costs and conformal symplecticity.</strong> When transaction costs are present, the Sharpe-gradient flow becomes conformally symplectic rather than strictly area-preserving. This connects to Birkhoff attractor theory (cf. Arnaud–Massetti) and raises the question of how the Legendrian structure degrades under friction.</p>
+  <p><strong>Higher-dimensional portfolio spaces.</strong> For $N$ assets, the map $\Phi : w \mapsto (\sigma^2, \mu)$ is a moment map for a torus action on $\mathbb{R}^N$. The efficient frontier's Lagrangian structure then becomes a genuine statement in symplectic reduction — something I would like to make precise.</p>
+</div>
+
+<p>
+I am still learning both sides of this — the symplectic geometry and the finance — so I would welcome corrections or pointers. The connection feels non-trivial to me, but I am not yet certain how much of it extends beyond the two-asset case in a useful way.
+</p>
+
+<hr>
+
+<h2>References</h2>
+
+<ol class="refs">
+  <li>Markowitz, H. (1952). Portfolio Selection. <em>Journal of Finance</em>, 7(1), 77–91.</li>
+  <li>Arnold, V. I. (1989). <em>Mathematical Methods of Classical Mechanics</em>, 2nd ed. Springer.</li>
+  <li>Geiges, H. (2008). <em>An Introduction to Contact Topology</em>. Cambridge University Press.</li>
+  <li>Cannas da Silva, A. (2001). <em>Lectures on Symplectic Geometry</em>. Springer. <a href="https://people.math.ethz.ch/~acannas/Papers/lsg.pdf">PDF</a>.</li>
+  <li>Arnaud, M.-C. &amp; Massetti, J.-E. (2019). Non-differentiability of the Birkhoff attractor. <em>Annals of Mathematics</em>.</li>
+</ol>
+
+<div class="footer">© 2025 Himanshu Mishra</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     Interactive figure scripts
+═══════════════════════════════════════════════════════ -->
+<script>
+/* colour palette matching site */
+const C_DARK   = '#333';
+const C_MED    = '#666';
+const C_LIGHT  = '#bbb';
+const C_ACCENT = '#444';
+const C_BLUE   = '#3B7FC4';
+const C_GREEN  = '#2a8c5a';
+const C_RED    = '#c0392b';
+const C_AMBER  = '#b06000';
+const C_PURP   = '#5a50a0';
+
+function axCol()  { return 'rgba(0,0,0,0.08)'; }
+function txtCol() { return 'rgba(0,0,0,0.65)'; }
+
+/* ──────────────────────────────────────
+   Figure 1 — Level sets
+────────────────────────────────────── */
+let cvLS, ctxLS;
+function initLS() {
+  cvLS  = document.getElementById('cvLS');
+  ctxLS = cvLS.getContext('2d');
+  cvLS.width  = cvLS.offsetWidth * devicePixelRatio;
+  cvLS.height = 280 * devicePixelRatio;
+  ctxLS.scale(devicePixelRatio, devicePixelRatio);
+}
+function drawLS() {
+  if (!ctxLS) initLS();
+  const rf = parseFloat(document.getElementById('rf1').value);
+  document.getElementById('rf1v').textContent = rf.toFixed(1) + '%';
+  const W = cvLS.offsetWidth, H = 280;
+  ctxLS.clearRect(0, 0, W, H);
+
+  const pad = {l:50, r:20, t:20, b:38};
+  const pw = W-pad.l-pad.r, ph = H-pad.t-pad.b;
+  const sigMax=30, muMin=-3, muMax=22;
+  const toX = s => pad.l + (s/sigMax)*pw;
+  const toY = m => pad.t + (1-(m-muMin)/(muMax-muMin))*ph;
+
+  /* grid */
+  ctxLS.strokeStyle = axCol(); ctxLS.lineWidth = 0.5;
+  [0,10,20,30].forEach(s => { ctxLS.beginPath(); ctxLS.moveTo(toX(s),pad.t); ctxLS.lineTo(toX(s),pad.t+ph); ctxLS.stroke(); });
+  [-3,0,5,10,15,20].forEach(m => { ctxLS.beginPath(); ctxLS.moveTo(pad.l,toY(m)); ctxLS.lineTo(pad.l+pw,toY(m)); ctxLS.stroke(); });
+
+  /* axes */
+  ctxLS.strokeStyle = 'rgba(0,0,0,0.2)'; ctxLS.lineWidth = 1;
+  ctxLS.beginPath(); ctxLS.moveTo(pad.l,pad.t); ctxLS.lineTo(pad.l,pad.t+ph); ctxLS.stroke();
+  ctxLS.beginPath(); ctxLS.moveTo(pad.l,pad.t+ph); ctxLS.lineTo(pad.l+pw,pad.t+ph); ctxLS.stroke();
+
+  ctxLS.fillStyle = txtCol(); ctxLS.font = '11px Georgia, serif';
+  ctxLS.textAlign = 'center'; ctxLS.fillText('σ  (volatility %)', pad.l+pw/2, H-4);
+  ctxLS.save(); ctxLS.translate(12,pad.t+ph/2); ctxLS.rotate(-Math.PI/2);
+  ctxLS.fillText('μ  (return %)', 0, 0); ctxLS.restore();
+  [0,10,20,30].forEach(s => { ctxLS.fillStyle=txtCol(); ctxLS.textAlign='center'; ctxLS.font='10px Georgia'; ctxLS.fillText(s, toX(s), pad.t+ph+13); });
+  [0,5,10,15,20].forEach(m => { ctxLS.fillStyle=txtCol(); ctxLS.textAlign='right'; ctxLS.fillText(m, pad.l-5, toY(m)+3); });
+
+  const ox = toX(0), oy = toY(rf);
+  const sharpes = [-0.5, 0, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0];
+  const cols    = [C_RED, '#888', '#aaa', C_GREEN, C_BLUE, C_PURP, '#7b72d4', '#afa9ec'];
+
+  sharpes.forEach((c, i) => {
+    const muEnd = rf + c*sigMax;
+    if (muEnd < muMin-5 || muEnd > muMax+5) return;
+    ctxLS.beginPath(); ctxLS.moveTo(ox, oy); ctxLS.lineTo(toX(sigMax), toY(muEnd));
+    ctxLS.strokeStyle = cols[i]; ctxLS.lineWidth = (c===1.0)?2:1;
+    ctxLS.globalAlpha = 0.8; ctxLS.stroke(); ctxLS.globalAlpha = 1;
+    const lx = toX(26)+3, ly = toY(rf+c*26)-2;
+    if (lx < W-4 && ly > pad.t+2 && ly < pad.t+ph-2) {
+      ctxLS.fillStyle = cols[i]; ctxLS.font = '10px Courier New, monospace'; ctxLS.textAlign = 'left';
+      ctxLS.fillText('S='+c.toFixed(2), lx, ly);
+    }
+  });
+
+  ctxLS.beginPath(); ctxLS.arc(ox, oy, 5, 0, 2*Math.PI);
+  ctxLS.fillStyle = C_PURP; ctxLS.fill();
+  ctxLS.fillStyle = C_DARK; ctxLS.font = '11px Georgia'; ctxLS.textAlign = 'left';
+  ctxLS.fillText('(0,  r\u2091 = '+rf.toFixed(1)+'%)', ox+8, oy-5);
+}
+
+/* ──────────────────────────────────────
+   Figure 2 — Hamiltonian flow
+────────────────────────────────────── */
+let cvFlow, ctxFlow;
+function initFlow() {
+  cvFlow  = document.getElementById('cvFlow');
+  ctxFlow = cvFlow.getContext('2d');
+  cvFlow.width  = cvFlow.offsetWidth * devicePixelRatio;
+  cvFlow.height = 280 * devicePixelRatio;
+  ctxFlow.scale(devicePixelRatio, devicePixelRatio);
+}
+function drawFlow() {
+  if (!ctxFlow) initFlow();
+  const rf     = parseFloat(document.getElementById('rf2').value);
+  const region = parseInt(document.getElementById('area2').value);
+  document.getElementById('rf2v').textContent   = rf.toFixed(1)+'%';
+  document.getElementById('area2v').textContent = 'region '+region;
+  const W=cvFlow.offsetWidth, H=280;
+  ctxFlow.clearRect(0,0,W,H);
+  const pad={l:56,r:20,t:20,b:38};
+  const pw=W-pad.l-pad.r, ph=H-pad.t-pad.b;
+  const qMax=700, muMin=-2, muMax=22;
+  const toX = q  => pad.l+(q/qMax)*pw;
+  const toY = mu => pad.t+(1-(mu-muMin)/(muMax-muMin))*ph;
+
+  ctxFlow.strokeStyle=axCol(); ctxFlow.lineWidth=0.5;
+  [0,200,400,600].forEach(q=>{ ctxFlow.beginPath(); ctxFlow.moveTo(toX(q),pad.t); ctxFlow.lineTo(toX(q),pad.t+ph); ctxFlow.stroke(); });
+  [0,5,10,15,20].forEach(m=>{ ctxFlow.beginPath(); ctxFlow.moveTo(pad.l,toY(m)); ctxFlow.lineTo(pad.l+pw,toY(m)); ctxFlow.stroke(); });
+
+  ctxFlow.strokeStyle='rgba(0,0,0,0.2)'; ctxFlow.lineWidth=1;
+  ctxFlow.beginPath(); ctxFlow.moveTo(pad.l,pad.t); ctxFlow.lineTo(pad.l,pad.t+ph); ctxFlow.stroke();
+  ctxFlow.beginPath(); ctxFlow.moveTo(pad.l,pad.t+ph); ctxFlow.lineTo(pad.l+pw,pad.t+ph); ctxFlow.stroke();
+
+  ctxFlow.fillStyle=txtCol(); ctxFlow.font='11px Georgia'; ctxFlow.textAlign='center';
+  ctxFlow.fillText('σ²  (variance)', pad.l+pw/2, H-4);
+  ctxFlow.save(); ctxFlow.translate(14,pad.t+ph/2); ctxFlow.rotate(-Math.PI/2); ctxFlow.fillText('μ  (return %)',0,0); ctxFlow.restore();
+  [0,200,400,600].forEach(q=>{ ctxFlow.fillStyle=txtCol(); ctxFlow.textAlign='center'; ctxFlow.font='10px Georgia'; ctxFlow.fillText(q,toX(q),pad.t+ph+13); });
+  [0,5,10,15,20].forEach(m=>{ ctxFlow.fillStyle=txtCol(); ctxFlow.textAlign='right'; ctxFlow.fillText(m,pad.l-5,toY(m)+3); });
+
+  const ox=toX(0), oy=toY(rf);
+  const sharpes=[-0.5,0,0.25,0.5,0.75,1.0,1.5];
+  const cols=[C_RED,'#888',C_BLUE,C_GREEN,C_PURP,'#7b72d4','#afa9ec'];
+  sharpes.forEach((c,i)=>{
+    ctxFlow.beginPath(); ctxFlow.moveTo(ox,oy);
+    for(let q=0;q<=qMax;q+=5){
+      const mu=rf+c*Math.sqrt(q);
+      if(mu<muMin-1||mu>muMax+1) continue;
+      if(q===0) ctxFlow.moveTo(toX(q),toY(mu)); else ctxFlow.lineTo(toX(q),toY(mu));
+    }
+    ctxFlow.strokeStyle=cols[i]; ctxFlow.lineWidth=(c===0.75)?2:1;
+    ctxFlow.globalAlpha=0.75; ctxFlow.stroke(); ctxFlow.globalAlpha=1;
+  });
+
+  const regs=[{s1:.3,s2:.7,q1:50,q2:200},{s1:.5,s2:1.0,q1:100,q2:300},{s1:.4,s2:.9,q1:80,q2:350},{s1:.25,s2:.75,q1:60,q2:280},{s1:.6,s2:1.2,q1:150,q2:400}];
+  const reg=regs[region-1];
+  ctxFlow.beginPath();
+  for(let q=reg.q1;q<=reg.q2;q+=4){ const mu=rf+reg.s2*Math.sqrt(q); if(q===reg.q1) ctxFlow.moveTo(toX(q),toY(mu)); else ctxFlow.lineTo(toX(q),toY(mu)); }
+  for(let s=reg.s2;s>=reg.s1;s-=0.02) ctxFlow.lineTo(toX(reg.q2),toY(rf+s*Math.sqrt(reg.q2)));
+  for(let q=reg.q2;q>=reg.q1;q-=4)   ctxFlow.lineTo(toX(q),toY(rf+reg.s1*Math.sqrt(q)));
+  ctxFlow.closePath();
+  ctxFlow.fillStyle='rgba(90,80,160,0.1)'; ctxFlow.strokeStyle='rgba(90,80,160,0.6)'; ctxFlow.lineWidth=1;
+  ctxFlow.fill(); ctxFlow.stroke();
+
+  const qm=(reg.q1+reg.q2)/2, sm=(reg.s1+reg.s2)/2;
+  ctxFlow.fillStyle=C_PURP; ctxFlow.font='bold 11px Georgia'; ctxFlow.textAlign='center';
+  ctxFlow.fillText('\u222b\u03c9 = const', toX(qm), toY(rf+sm*Math.sqrt(qm)));
+
+  ctxFlow.beginPath(); ctxFlow.arc(ox,oy,5,0,2*Math.PI); ctxFlow.fillStyle=C_PURP; ctxFlow.fill();
+
+  /* X_S vector */
+  const tq=200, tmu=rf+0.75*Math.sqrt(tq);
+  const tx=toX(tq), ty=toY(tmu);
+  const dq=1/Math.sqrt(tq), dp=(tmu-rf)/(2*tq*Math.sqrt(tq)), sc=40;
+  ctxFlow.beginPath(); ctxFlow.moveTo(tx,ty); ctxFlow.lineTo(tx+dq*sc*pw/qMax, ty-dp*sc*ph/(muMax-muMin));
+  ctxFlow.strokeStyle=C_AMBER; ctxFlow.lineWidth=2; ctxFlow.stroke();
+  ctxFlow.fillStyle=C_AMBER; ctxFlow.font='11px Georgia'; ctxFlow.textAlign='left';
+  ctxFlow.fillText('X\u209B', tx+dq*sc*pw/qMax+4, ty-dp*sc*ph/(muMax-muMin));
+}
+
+/* ──────────────────────────────────────
+   Figure 3 — Efficient frontier
+────────────────────────────────────── */
+let frontChart=null;
+function drawFrontier(){
+  const muA =parseFloat(document.getElementById('muA').value);
+  const muB =parseFloat(document.getElementById('muB').value);
+  const sigA=parseFloat(document.getElementById('sigA').value);
+  const sigB=parseFloat(document.getElementById('sigB').value);
+  const rho =parseFloat(document.getElementById('rho').value)/100;
+  const rf  =parseFloat(document.getElementById('rf3').value);
+  document.getElementById('muAv').textContent =muA.toFixed(1)+'%';
+  document.getElementById('muBv').textContent =muB.toFixed(1)+'%';
+  document.getElementById('sigAv').textContent=sigA.toFixed(0)+'%';
+  document.getElementById('sigBv').textContent=sigB.toFixed(0)+'%';
+  document.getElementById('rhov').textContent =rho.toFixed(2);
+  document.getElementById('rf3v').textContent =rf.toFixed(1)+'%';
+
+  const vA=sigA*sigA, vB=sigB*sigB, cov=rho*sigA*sigB;
+  const frontier=[];
+  for(let w=0;w<=1;w+=0.01){
+    const mu=w*muA+(1-w)*muB;
+    const sig=Math.sqrt(Math.max(w*w*vA+(1-w)*(1-w)*vB+2*w*(1-w)*cov,0.001));
+    frontier.push({x:parseFloat(sig.toFixed(3)), y:parseFloat(mu.toFixed(3))});
+  }
+  let bestS=-Infinity, bestI=0;
+  frontier.forEach((pt,i)=>{ const s=(pt.y-rf)/pt.x; if(s>bestS){bestS=s;bestI=i;} });
+  const tang=frontier[bestI];
+  document.getElementById('mS').textContent =bestS.toFixed(2);
+  document.getElementById('mMu').textContent=tang.y.toFixed(1)+'%';
+  document.getElementById('mSig').textContent=tang.x.toFixed(1)+'%';
+
+  if(frontChart){frontChart.destroy();frontChart=null;}
+  frontChart=new Chart(document.getElementById('cvFront'),{
+    type:'scatter',
+    data:{datasets:[
+      {label:'Frontier',data:frontier,showLine:true,fill:false,borderColor:'rgba(60,60,60,0.55)',borderWidth:2,pointRadius:0,tension:0.3},
+      {label:'CML',data:[{x:0,y:rf},{x:tang.x*2.5,y:rf+bestS*tang.x*2.5}],showLine:true,fill:false,borderColor:C_GREEN,borderWidth:1.5,borderDash:[4,3],pointRadius:0},
+      {label:'Iso S low',data:[{x:0,y:rf},{x:35,y:rf+bestS*0.6*35}],showLine:true,fill:false,borderColor:'rgba(0,0,0,0.18)',borderWidth:1,borderDash:[2,3],pointRadius:0},
+      {label:'Iso S mid',data:[{x:0,y:rf},{x:35,y:rf+bestS*0.8*35}],showLine:true,fill:false,borderColor:'rgba(90,80,160,0.4)',borderWidth:1,borderDash:[2,3],pointRadius:0},
+      {label:'Tangency',data:[{x:tang.x,y:tang.y}],pointRadius:8,pointStyle:'circle',backgroundColor:C_PURP,borderColor:'#fff',borderWidth:2},
+      {label:'Asset A',data:[{x:sigA,y:muA}],pointRadius:6,pointStyle:'triangle',backgroundColor:C_GREEN,borderColor:C_GREEN},
+      {label:'Asset B',data:[{x:sigB,y:muB}],pointRadius:6,pointStyle:'rectRot',backgroundColor:C_AMBER,borderColor:C_AMBER},
+      {label:'r_f',data:[{x:0,y:rf}],pointRadius:5,backgroundColor:'#888',borderColor:'#888'},
+    ]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` σ=${ctx.raw.x.toFixed(1)}%, μ=${ctx.raw.y.toFixed(1)}%`}}},
+      scales:{
+        x:{title:{display:true,text:'σ  (volatility %)',color:txtCol(),font:{size:11,family:'Georgia'}},min:0,max:35,grid:{color:axCol()},ticks:{color:txtCol(),font:{size:10}}},
+        y:{title:{display:true,text:'μ  (expected return %)',color:txtCol(),font:{size:11,family:'Georgia'}},min:Math.min(rf-2,muA-4,muB-4),max:Math.max(muA,muB)+4,grid:{color:axCol()},ticks:{color:txtCol(),font:{size:10}}}
+      }
+    }
+  });
+}
+
+/* ──────────────────────────────────────
+   Figure 4 — Contact / Reeb
+────────────────────────────────────── */
+let cvC, ctxC;
+function initContact(){
+  cvC=document.getElementById('cvContact');
+  ctxC=cvC.getContext('2d');
+  cvC.width=cvC.offsetWidth*devicePixelRatio;
+  cvC.height=270*devicePixelRatio;
+  ctxC.scale(devicePixelRatio,devicePixelRatio);
+}
+function drawContact(){
+  if(!ctxC) initContact();
+  const rf  =parseFloat(document.getElementById('rfAnim').value);
+  const mode=parseInt(document.getElementById('showMode').value);
+  document.getElementById('rfAnimv').textContent=rf.toFixed(1)+'%';
+  const labels=['iso-Sharpe rays','gradient field ∇S','level-set foliation'];
+  document.getElementById('showModev').textContent=labels[mode];
+  const W=cvC.offsetWidth, H=270;
+  ctxC.clearRect(0,0,W,H);
+  const pad={l:52,r:20,t:20,b:36};
+  const pw=W-pad.l-pad.r, ph=H-pad.t-pad.b;
+  const sigMax=30, muMin=-2, muMax=20;
+  const toX=s=>pad.l+(s/sigMax)*pw;
+  const toY=m=>pad.t+(1-(m-muMin)/(muMax-muMin))*ph;
+
+  ctxC.strokeStyle=axCol(); ctxC.lineWidth=0.5;
+  ctxC.beginPath();ctxC.moveTo(pad.l,pad.t);ctxC.lineTo(pad.l,pad.t+ph);ctxC.stroke();
+  ctxC.beginPath();ctxC.moveTo(pad.l,pad.t+ph);ctxC.lineTo(pad.l+pw,pad.t+ph);ctxC.stroke();
+  ctxC.fillStyle=txtCol();ctxC.font='11px Georgia';
+  ctxC.textAlign='center';ctxC.fillText('σ',pad.l+pw/2,H-4);
+  ctxC.save();ctxC.translate(13,pad.t+ph/2);ctxC.rotate(-Math.PI/2);ctxC.fillText('μ',0,0);ctxC.restore();
+  [0,10,20,30].forEach(s=>{ctxC.fillStyle=txtCol();ctxC.textAlign='center';ctxC.font='10px Georgia';ctxC.fillText(s,toX(s),pad.t+ph+12);});
+  [0,5,10,15,20].forEach(m=>{ctxC.fillStyle=txtCol();ctxC.textAlign='right';ctxC.fillText(m,pad.l-4,toY(m)+3);});
+
+  if(mode===0){
+    [-0.5,-0.25,0,0.25,0.5,0.75,1.0,1.25,1.5,1.75,2.0].forEach(c=>{
+      ctxC.beginPath();ctxC.moveTo(toX(0),toY(rf));ctxC.lineTo(toX(sigMax),toY(rf+c*sigMax));
+      ctxC.strokeStyle=c<0?C_RED:(c===0?'#888':C_PURP);
+      ctxC.lineWidth=c===1.0?2:0.75;ctxC.globalAlpha=c===1.0?1:0.5;ctxC.stroke();ctxC.globalAlpha=1;
+    });
+    ctxC.beginPath();ctxC.arc(toX(0),toY(rf),5,0,2*Math.PI);ctxC.fillStyle=C_PURP;ctxC.fill();
+    ctxC.fillStyle=C_DARK;ctxC.font='11px Georgia';ctxC.textAlign='left';
+    ctxC.fillText('(0, r\u2091 = '+rf.toFixed(1)+'%)',toX(0)+8,toY(rf)-5);
+    ctxC.fillStyle=C_PURP;ctxC.font='10px Georgia';ctxC.textAlign='center';
+    ctxC.fillText('Reeb \u2195',toX(0),toY(rf)-18);
+  } else if(mode===1){
+    for(let si=2;si<=28;si+=5){
+      for(let mi=0;mi<=18;mi+=3.5){
+        const gS=-(mi-rf)/(si*si), gM=1/si, mag=Math.sqrt(gS*gS+gM*gM);
+        const nx=gS/mag, ny=gM/mag, len=12;
+        const x0=toX(si), y0=toY(mi);
+        ctxC.beginPath();ctxC.moveTo(x0,y0);ctxC.lineTo(x0+nx*len*pw/sigMax,y0-ny*len*ph/(muMax-muMin));
+        ctxC.strokeStyle=C_BLUE;ctxC.lineWidth=1;ctxC.globalAlpha=0.6;ctxC.stroke();ctxC.globalAlpha=1;
+        ctxC.beginPath();ctxC.arc(x0,y0,1.5,0,2*Math.PI);ctxC.fillStyle=C_BLUE;ctxC.fill();
+      }
+    }
+    ctxC.beginPath();ctxC.moveTo(toX(0),toY(rf));ctxC.lineTo(toX(sigMax),toY(rf+sigMax));
+    ctxC.strokeStyle=C_PURP;ctxC.lineWidth=1.5;ctxC.stroke();
+    ctxC.fillStyle=C_DARK;ctxC.font='10px Georgia';ctxC.textAlign='left';
+    ctxC.fillText('\u2207S \u22a5 iso-Sharpe ray',toX(4),toY(rf+4)-8);
+  } else {
+    [0,1,2,3,4,5,6,7,8].forEach(rfv=>{
+      const act=(rfv===Math.round(rf));
+      [0.5,1.0,1.5].forEach(c=>{
+        ctxC.beginPath();ctxC.moveTo(toX(0),toY(rfv));ctxC.lineTo(toX(sigMax),toY(rfv+c*sigMax));
+        ctxC.strokeStyle=act?C_PURP:'rgba(90,80,160,0.3)';
+        ctxC.lineWidth=act?1.5:0.5;ctxC.globalAlpha=act?0.9:0.25;ctxC.stroke();ctxC.globalAlpha=1;
+      });
+    });
+    ctxC.fillStyle=C_DARK;ctxC.font='10px Georgia';ctxC.textAlign='center';
+    ctxC.fillText('Highlighted: r\u2091 = '+rf.toFixed(1)+'%',pad.l+pw/2,pad.t+12);
+    ctxC.fillText('(r\u2091 varies \u2192 Reeb direction)',pad.l+pw/2,pad.t+24);
+  }
+}
+
+window.addEventListener('load',()=>{
+  initLS(); drawLS();
+  initFlow(); drawFlow();
+  drawFrontier();
+  initContact(); drawContact();
+});
+window.addEventListener('resize',()=>{
+  if(cvLS){cvLS.width=cvLS.offsetWidth*devicePixelRatio;ctxLS=cvLS.getContext('2d');ctxLS.scale(devicePixelRatio,devicePixelRatio);drawLS();}
+  if(cvFlow){cvFlow.width=cvFlow.offsetWidth*devicePixelRatio;ctxFlow=cvFlow.getContext('2d');ctxFlow.scale(devicePixelRatio,devicePixelRatio);drawFlow();}
+  if(cvC){cvC.width=cvC.offsetWidth*devicePixelRatio;ctxC=cvC.getContext('2d');ctxC.scale(devicePixelRatio,devicePixelRatio);drawContact();}
+  if(frontChart) drawFrontier();
+});
+</script>
+
+</body>
+</html>
