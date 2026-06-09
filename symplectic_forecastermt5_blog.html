@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teaching a market to move like a pendulum | Himanshu Mishra</title>
+  <style>
+    body {
+      font-family: Georgia, serif;
+      max-width: 680px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.92;
+      color: #222;
+      background: #fff;
+    }
+    a { color: #222; text-decoration: none; }
+    a:hover { color: #555; }
+    nav { margin-bottom: 2.5em; font-size: 0.95em; }
+    h1 { font-size: 1.45em; margin-bottom: 0.2em; line-height: 1.35; }
+    .meta { font-size: 0.86em; color: #999; margin-bottom: 2.4em; }
+    h2 { font-size: 1.0em; font-weight: bold; margin: 2.4em 0 0.5em; }
+    p { margin: 0 0 1.2em; font-size: 0.97em; }
+    em { font-style: italic; }
+    code {
+      font-family: monospace;
+      font-size: 0.87em;
+      background: #f5f5f5;
+      padding: 1px 5px;
+      border-radius: 2px;
+    }
+    hr { border: none; border-top: 1px solid #eee; margin: 2.6em 0; }
+    footer { font-size: 0.85em; color: #aaa; margin-top: 3.5em; }
+    .tags { font-size: 0.80em; color: #aaa; margin-top: 2.5em; }
+    .tags span { margin-right: 0.6em; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="https://himalay00125-boop.github.io/index.html">← Home</a>
+  </nav>
+
+  <h1>Teaching a market to move like a pendulum</h1>
+  <div class="meta">June 2026 &nbsp;·&nbsp; Himanshu Mishra</div>
+
+  <p>
+    There is a diagram I keep coming back to when I think about why most trading models
+    feel wrong to me. You have a horizontal axis for time and a vertical axis for price,
+    and somewhere on that plot a wiggly line makes its way from left to right. The line
+    goes up for a while, then down, then sideways. Every indicator ever invented — every
+    moving average, every RSI, every Bollinger Band, every LSTM that's been trained on
+    market data — lives in that diagram. They are all functions of that wiggly line, or
+    transformations of it, or attempts to predict where it will go next. The price axis is
+    all there is.
+  </p>
+
+  <p>
+    That bothers me, and I've spent a while trying to understand exactly why. A market is
+    not just price. It is price and volume, together, in each bar, and the relationship
+    between the two changes constantly in ways that carry meaning. A bar that closes up
+    3% on ten times normal volume is not the same event as a bar that closes up 3% on
+    half normal volume, but if you draw both as points on the price axis they are
+    indistinguishable. The standard diagram throws away half the data before the modelling
+    even begins.
+  </p>
+
+  <p>
+    I wanted to know what you could see if you stopped throwing it away.
+  </p>
+
+  <h2>The pendulum thing</h2>
+
+  <p>
+    When a physicist wants to understand a pendulum, they don't just plot the angle over
+    time. They plot the angle against the angular velocity — position against momentum —
+    and what they get is an ellipse. The whole life of the pendulum, every swing it will
+    ever make, is encoded in that ellipse. The size of the ellipse tells you the energy.
+    The shape tells you whether the motion is periodic or chaotic. Two pendulums with the
+    same amplitude but different periods will trace different ellipses, and you can read
+    that difference off the geometry directly.
+  </p>
+
+  <p>
+    This is phase space, and it is one of the most powerful ideas in classical mechanics.
+    The position and momentum of a system together define a point in a two-dimensional
+    plane, and the history of the system is a continuous trajectory through that plane.
+    Different physical systems have characteristic trajectory shapes — ellipses, spirals,
+    strange attractors — and the geometry of those shapes tells you things that you would
+    never see in a one-dimensional time series.
+  </p>
+
+  <p>
+    I started wondering whether you could do the same thing to a market. What would it
+    look like to treat price as position and something volume-like as momentum, and then
+    watch the trajectory that traces out?
+  </p>
+
+  <h2>What actually happens when you try it</h2>
+
+  <p>
+    The encoding I settled on uses <code>q(t) = ln P(t)</code> for position and
+    <code>p(t) = V(t) · sign(ΔP(t))</code> for momentum: the log-price, and the bar's
+    volume signed positive if the close was above the open and negative if it was below.
+    The sign convention is the key thing — it means the momentum coordinate captures
+    not just how much activity there was but what direction it was pushing. You take a
+    rolling window of these <code>(q, p)</code> pairs and plot them, and you get a cloud.
+  </p>
+
+  <p>
+    The first time I plotted one of these clouds on real market data I found it more
+    interesting than I expected. During a clean uptrend the cloud sits in a strip tilted
+    toward the upper right: prices are ascending along the <code>q</code> axis and the
+    volume is consistently positive on the <code>p</code> axis. During consolidation it
+    collapses into a compact ball near the centre, with the <code>p</code> axis churning
+    back and forth between positive and negative but not going anywhere. During a sudden
+    selloff the cloud lurches downward and to the left, and the new points appear far from
+    the old ones before the cloud slowly recentres. You can see regime changes happen, in
+    real time, as the cloud morphs.
+  </p>
+
+  <p>
+    The natural question was whether you could quantify that. The shape is clearly
+    informative — but shape is not a number. I needed a scalar that captured something
+    essential about the shape so I could track it, threshold it, and use it in a model.
+  </p>
+
+  <h2>Borrowing Gromov width from topology</h2>
+
+  <p>
+    This is where symplectic geometry comes in, and I want to be clear that I didn't
+    arrive here by design. I came to it because I was already thinking about symplectic
+    manifolds for other reasons — questions about when one symplectic space can be
+    embedded into another, which is the kind of pure mathematics that has nothing
+    obviously to do with finance. But symplectic geometry is, at its core, the geometry
+    of the <code>(q, p)</code> plane, and when I realised I was literally working with
+    position-momentum coordinates on a plane the connection became hard to ignore.
+  </p>
+
+  <p>
+    The symplectic capacity of a domain in the <code>(q, p)</code> plane is a measure
+    of how much of that plane the domain occupies, in a way that is invariant under
+    all the transformations that preserve the symplectic structure. The simplest version
+    of it — the one I use — is just the area of the convex hull of the domain. In the
+    mathematical literature this is related to the Gromov width, which is the radius of
+    the largest symplectic ball that embeds into the domain. For my purposes what matters
+    is that it is a well-defined, geometrically motivated number that I can compute from
+    the rolling point cloud at every bar, and that it has a formal stability property:
+    its variation is bounded by a Lipschitz condition that links the change in capacity
+    to the size of the perturbation applied to the cloud.
+  </p>
+
+  <p>
+    In practice this means that when capacity is varying smoothly, the market is in a
+    well-behaved regime. When it suddenly spikes, something about the current bar has
+    violated the stability bound — the market has done something that doesn't fit the
+    recent pattern, structurally — and the right response is to suspend predictions
+    rather than double down. I track this capacity as <code>C(t)</code>, maintain its
+    rolling 95th percentile, and trigger an ALERT whenever it crosses that threshold.
+    I also track the perimeter of the hull as a secondary feature, because a long thin
+    cloud and a round compact cloud can have the same area but very different implications
+    for what the market is doing.
+  </p>
+
+  <h2>Then the shape got more complicated</h2>
+
+  <p>
+    Somewhere in the middle of building this I started wondering whether the convex hull
+    was the right summary of the cloud's geometry. The hull tells you about the outer
+    boundary; it says nothing about what's going on inside. And sometimes what's going
+    on inside is interesting. I started noticing cases where the cloud would fragment —
+    split into two distinct clusters with a gap between them — in ways that seemed to
+    correspond to the market being genuinely uncertain, pulled between two competing
+    narratives. The hull area was the same as in a unified cloud, but the structure was
+    completely different.
+  </p>
+
+  <p>
+    This led me to persistent homology, which is a technique from topological data
+    analysis for describing the shape of a point cloud in terms of its connected
+    components and loops. The basic idea is that you grow balls around each point,
+    increasing the radius, and watch the topology change. Components merge; cycles form
+    and then fill in. Each topological event gets recorded with the radius at which it
+    was born and the radius at which it died, and the difference — its lifetime — tells
+    you how significant the feature was. Noise produces lots of short-lived features.
+    Real structure produces features with long lifetimes.
+  </p>
+
+  <p>
+    From the rolling cloud I extract the number of long-lived connected components —
+    which tells you how fragmented the distribution is — and the number of long-lived
+    loops — which tells you whether there's cyclical, closed-orbit behaviour in the
+    current window. Both go into the model as features alongside the capacity and
+    perimeter. It means the model's input is a description of the market that encodes
+    not just how big the cloud is but how connected it is and whether it has holes in it.
+    I found that more satisfying than adding another derivative of price.
+  </p>
+
+  <h2>A model that cannot cheat</h2>
+
+  <p>
+    I thought carefully about the learning setup because there are a lot of ways to
+    accidentally build a model that cheats. Any time you touch the future — normalising
+    over the whole dataset, training on data that includes bars you haven't reached yet,
+    computing statistics that require looking ahead — you are giving the model information
+    it wouldn't have had in real trading. The backtested results will look good and the
+    live results will be disappointing, and the gap between them is entirely explained by
+    the leakage.
+  </p>
+
+  <p>
+    The forecaster avoids this by being a pure online learner. At each bar it takes the
+    features computed from data available up to that bar, uses the current model to make
+    a prediction, evaluates the previous prediction against what actually happened, and
+    updates its weights. That's the complete loop. The weights at any step are a function
+    only of the observations that preceded it. There is no training phase that precedes
+    trading — the model starts from scratch and gets smarter with every bar it sees.
+  </p>
+
+  <p>
+    The ensemble I use pairs a Passive-Aggressive Regressor with a Hoeffding Adaptive
+    Tree. The first is a linear model with a deliberately conservative update rule: it
+    ignores small errors and responds strongly to large ones, which makes it stable when
+    the market is predictable and reactive when it isn't. The second is a decision tree
+    designed for data streams, one that uses statistical tests to decide when new splits
+    are warranted and drift detection to restructure itself when the distribution shifts.
+    Together they give a forecast that is neither too rigid to adapt nor too plastic to be
+    consistent, and the HOLD signal activates whenever the ensemble lacks the confidence
+    to commit.
+  </p>
+
+  <h2>Three paths forward</h2>
+
+  <p>
+    I was careful about not pretending to more certainty than the model actually has.
+    Rather than outputting a single predicted price, the forecaster generates three
+    five-step-ahead paths: a base path from the raw ensemble prediction, and bull and
+    bear paths that expand outward by a factor of the Lipschitz stability bound. This
+    means the width of the scenario fan is determined by the current geometry of the
+    market — wide when the phase-space cloud is large and uncertain, narrow when it is
+    compact and well-behaved. The uncertainty is structural, not a fixed error bar.
+  </p>
+
+  <h2>The thing I actually learned</h2>
+
+  <p>
+    Building this tool taught me something I didn't fully expect. The symplectic
+    geometry, as a framework, is genuinely good at one specific thing: detecting when
+    a market is in a stable regime versus when it is transitioning between regimes. The
+    capacity measure tracks this beautifully and the ALERT system, in testing, catches
+    a lot of the moments when confident predictions would have been wrong. The topology
+    adds sensitivity to internal structure that the geometry misses.
+  </p>
+
+  <p>
+    Whether the ensemble is a good predictor of direction when it does commit — that is
+    a harder question, and one I have not answered with the rigour it deserves. An honest
+    evaluation requires out-of-sample data collected after the model was finalised, real
+    or simulated capital, and a long enough window to distinguish skill from luck. I
+    haven't done that. What I've done is build a framework that I believe is
+    mathematically well-motivated and practically honest — it knows when it doesn't know,
+    which is more than most systems I've seen — and then made the code available for
+    anyone who wants to test it properly.
+  </p>
+
+  <p>
+    The code is on <a href="https://github.com/himalay00125-boop/symplectic-forecaster-mt5" target="_blank">GitHub</a>.
+    The project write-up, which goes into the mathematical formulation in more detail, is
+    <a href="symplectic-forecaster-mt5.html">here</a>.
+  </p>
+
+  <div class="tags">
+    <span>symplectic geometry</span>
+    <span>persistent homology</span>
+    <span>online learning</span>
+    <span>financial ML</span>
+    <span>MetaTrader 5</span>
+    <span>phase space</span>
+    <span>TDA</span>
+  </div>
+
+  <footer>© 2025 Himanshu Mishra</footer>
+
+</body>
+</html>
